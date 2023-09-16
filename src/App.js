@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import FileUploadForm from './FileUploadForm';
+import ResultTable from './ResultTable';
+import Header from './Header';
+import Footer from './Footer';
+import { uploadFiles } from './api';
 
 function App() {
+  const [apiData, setApiData] = useState([]);
+
+  const handleUpload = async (formData) => {
+    try {
+      const response = await uploadFiles(formData);
+      setApiData(response);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <main>
+        <h1>JabaJab</h1>
+        <FileUploadForm onUpload={handleUpload} />
+        {apiData.length > 0 && <ResultTable data={apiData} />}
+      </main>
+      <Footer />
     </div>
   );
 }
