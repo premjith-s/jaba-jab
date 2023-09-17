@@ -22,7 +22,6 @@ function App() {
     <div className="App">
       <Header />
       <main>
-        <h1>JabaJab</h1>
         <FileUploadForm onUpload={handleUpload} />
         {apiData.length > 0 && <ResultTable data={apiData} />}
       </main>
